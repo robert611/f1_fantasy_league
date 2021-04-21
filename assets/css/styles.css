@@ -1,0 +1,15 @@
+:root
+{
+    --layoutColor: #b71c1c;
+}
+
+.navbar
+{
+    background: var(--layoutColor);
+    padding-top: 20px!important;
+    padding-bottom: 20px!important;
+}
+
+.navbar-toggler:focus {
+    border-color: rgba(255, 255, 255, .1)!important;
+}
