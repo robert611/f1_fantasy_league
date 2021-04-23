@@ -23,4 +23,9 @@ abstract class AbstractController
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
         $this->twig->addGlobal('session', $this->session);
     }
+
+    protected function redirectToRoute(string $uri)
+    {
+        header("Location: ${uri}");
+    }
 }
