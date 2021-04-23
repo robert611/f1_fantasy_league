@@ -32,6 +32,19 @@
         </div>
     </nav>
 
+    <div class="container mt-3">
+        {% for message in session.getFlashBag().get('success') %}
+            <div class="alert alert-success mt-2">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in session.getFlashBag().get('error') %}
+            <div class="alert alert-danger mt-2">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+
     {% block body %}
     
     {% endblock %}
