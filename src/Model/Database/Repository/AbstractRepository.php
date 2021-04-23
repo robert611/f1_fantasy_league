@@ -3,16 +3,19 @@
 namespace App\Model\Database\Repository;
 
 use App\Model\Database\Connection;
+use App\Model\Database\QueryBuilder;
 
 abstract class AbstractRepository
 {
     use Connection;
     
     private \PDO $pdo;
+    protected QueryBuilder $queryBuilder;
 
     public function __construct()
     {
         $this->pdo = $this->getPdoConnection();
+        $this->queryBuilder = new QueryBuilder();
     }
 
     /*
