@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-md-center p-2">
+            <div class="card col-md-10">
+                <div class="card-body">
+                    <h1 class="mb-4">Register</h1>
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="username-input" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username-input">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email-input" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="email-input">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password-input" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password-input">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password-repeat-input" class="form-label">Repeat Password</label>
+                            <input type="password" class="form-control" id="password-repeat-input">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>      
+{% endblock %}
