@@ -68,4 +68,22 @@ final class UserRepositoryTest extends TestCase
 
         $this->assertEquals(count($users), count($expectedUsers));
     }
+
+    public function testSaveUser()
+    {
+        $username = "test_user_1234";
+        $email = "testemail998@interia.pl";
+        $password = password_hash('password_test_test', PASSWORD_BCRYPT);
+
+        $this->userRepository->saveUser($username, $email, $password, '["ROLE_USER"]');
+
+        $user = $this->queryBuilder->queryWithFetch("SELECT * FROM user WHERE username = :username", ['username' => $username]);
+
+        $this->assertTrue(is_array($user));
+        $this->assertEquals($user['username'], $username);
+        $this->assertEquals($user['email'], $email);
+        $this->assertEquals($user['password'], $password);
+
+        $this->queryBuilder->executeQuery("DELETE FROM user where username = :username", ['username' => $username]);
+    }
 }

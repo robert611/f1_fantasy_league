@@ -6,24 +6,30 @@
             <div class="card col-md-10">
                 <div class="card-body">
                     <h1 class="mb-4">Register</h1>
-                    <form method="POST">
+                    <form method="POST" action="/register">
                         <div class="mb-3">
                             <label for="username-input" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username-input">
+                            <input type="text" class="form-control" id="username-input" name="username">
                         </div>
                         <div class="mb-3">
                             <label for="email-input" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="email-input">
+                            <input type="email" class="form-control" id="email-input" name="email">
                         </div>
                         <div class="mb-3">
                             <label for="password-input" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password-input">
+                            <input type="password" class="form-control" id="password-input" name="password">
                         </div>
                         <div class="mb-3">
                             <label for="password-repeat-input" class="form-label">Repeat Password</label>
-                            <input type="password" class="form-control" id="password-repeat-input">
+                            <input type="password" class="form-control" id="password-repeat-input" name="password-repeat">
                         </div>
                         <button type="submit" class="btn btn-primary">Register</button>
+
+                         {% for message in session.getFlashBag().get('registration_error') %}
+                            <div class="alert alert-danger mt-2">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
                     </form>
                 </div>
             </div>
