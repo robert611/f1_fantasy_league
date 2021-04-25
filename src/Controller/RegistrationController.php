@@ -26,7 +26,7 @@ class RegistrationController extends AbstractController
 
             foreach ($formErrors as $error) $this->session->getFlashBag()->add('registration_error', $error);
 
-            $this->redirectToRoute('/register');
+            return $this->redirectToRoute('/register');
         }
 
         $password = password_hash($password, PASSWORD_BCRYPT);
@@ -37,6 +37,6 @@ class RegistrationController extends AbstractController
 
         $this->session->getFlashBag()->add('success', 'Registration is complete, now you can log in!');
 
-        $this->redirectToRoute('/login');
+        return $this->redirectToRoute('/login');
     }
 }
