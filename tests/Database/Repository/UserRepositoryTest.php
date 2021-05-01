@@ -33,7 +33,6 @@ final class UserRepositoryTest extends TestCase
 
         $this->assertEquals($user['username'], $expectedUser['username']);
         $this->assertEquals($user['email'], $expectedUser['email']);
-        $this->assertEquals($user['password'], $expectedUser['password']);
         $this->assertEquals($user['roles'], $expectedUser['roles']);
     }
 

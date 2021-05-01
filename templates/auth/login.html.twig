@@ -6,16 +6,22 @@
             <div class="card col-md-10">
                 <div class="card-body">
                     <h1 class="mb-4">Login</h1>
-                    <form method="POST">
+                    <form method="POST" action="/login">
                         <div class="mb-3">
                             <label for="username-input" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username-input">
+                            <input type="text" class="form-control" id="username-input" name="username" required>
                         </div>
                         <div class="mb-3">
                             <label for="password-input" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password-input">
+                            <input type="password" class="form-control" id="password-input" name="password" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Login</button>
+
+                        {% for message in session.getFlashBag().get('login_error') %}
+                            <div class="alert alert-danger mt-2">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
                     </form>
                 </div>
             </div>
