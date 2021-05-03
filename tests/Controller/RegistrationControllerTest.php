@@ -102,4 +102,76 @@ class RegistrationControllerTest extends TestCase
 
         $this->assertTrue(str_contains($httpLogs, 'Location: /register'));
     }
+
+    public function test_if_given_username_is_already_taken()
+    {
+        $client = HttpClient::create();
+
+        $username = $this->queryBuilder->queryWithFetch("SELECT * FROM user LIMIT 1")['username'];
+
+        $response = $client->request('POST', 'http://localhost:8000/api/registration/is/username/taken', [
+                'body' => [
+                    'username' => $username
+                ],
+                'verify_peer' => false
+            ]
+        );
+
+        $content = (array) json_decode($response->getContent()); /* Request is asynchronous, it makes it wait for the response */
+
+        $this->assertTrue($content['is_username_taken']);
+    }
+
+    public function test_if_given_username_is_not_taken()
+    {
+        $client = HttpClient::create();
+
+        $response = $client->request('POST', 'http://localhost:8000/api/registration/is/username/taken', [
+                'body' => [
+                    'username' => '9_fake_username_test_vvv'
+                ],
+                'verify_peer' => false
+            ]
+        );
+
+        $content = (array) json_decode($response->getContent()); /* Request is asynchronous, it makes it wait for the response */
+
+        $this->assertFalse($content['is_username_taken']);
+    }
+
+    public function test_if_given_email_is_already_taken()
+    {
+        $client = HttpClient::create();
+
+        $email = $this->queryBuilder->queryWithFetch("SELECT * FROM user LIMIT 1")['email'];
+
+        $response = $client->request('POST', 'http://localhost:8000/api/registration/is/email/taken', [
+                'body' => [
+                    'email' => $email
+                ],
+                'verify_peer' => false
+            ]
+        );
+
+        $content = (array) json_decode($response->getContent()); /* Request is asynchronous, it makes it wait for the response */
+
+        $this->assertTrue($content['is_email_taken']);
+    }
+
+    public function test_if_given_email_is_not_taken()
+    {
+        $client = HttpClient::create();
+
+        $response = $client->request('POST', 'http://localhost:8000/api/registration/is/email/taken', [
+                'body' => [
+                    'email' => '8_fake_email_test_zzz'
+                ],
+                'verify_peer' => false
+            ]
+        );
+
+        $content = (array) json_decode($response->getContent()); /* Request is asynchronous, it makes it wait for the response */
+
+        $this->assertFalse($content['is_email_taken']);
+    }
 }

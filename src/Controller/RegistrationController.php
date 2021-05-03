@@ -39,4 +39,26 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('/login');
     }
+
+    public function checkIfUsernameIsTaken()
+    {        
+        $username = $this->request->get('username');
+
+        $userRepository = new UserRepository();
+
+        $isUsernameTaken = is_array($userRepository->findOneBy(['username' => $username])) ? true : false;
+
+        echo json_encode(['is_username_taken' => $isUsernameTaken]);
+    }
+
+    public function checkIfEmailIsTaken()
+    {
+        $email = $this->request->get('email');
+
+        $userRepository = new UserRepository();
+
+        $isEmailTaken = is_array($userRepository->findOneBy(['email' => $email])) ? true : false;
+
+        echo json_encode(['is_email_taken' => $isEmailTaken]);
+    }
 }
