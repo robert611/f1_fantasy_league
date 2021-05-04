@@ -1,12 +1,17 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="../assets/js/login.js"></script>
+{% endblock %}
+
 {% block body %}
     <div class="container mt-5">
         <div class="row justify-content-md-center p-2">
             <div class="card col-md-10">
                 <div class="card-body">
                     <h1 class="mb-4">Login</h1>
-                    <form method="POST" action="/login">
+                    <form method="POST" action="/login" id="login-form">
                         <div class="mb-3">
                             <label for="username-input" class="form-label">Username</label>
                             <input type="text" class="form-control" id="username-input" name="username" required>
@@ -17,11 +22,13 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Login</button>
 
-                        {% for message in session.getFlashBag().get('login_error') %}
-                            <div class="alert alert-danger mt-2">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
+                        <div id="login-error-messages-container" class="mt-3">
+                            {% for message in session.getFlashBag().get('login_error') %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
                     </form>
                 </div>
             </div>
