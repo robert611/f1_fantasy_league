@@ -119,4 +119,49 @@ final class RegistrationTest extends TestCase
         $this->assertFalse($isValid);
         $this->assertEquals($errorsCount, 2);
     }
+
+    /**
+        * @dataProvider getValidEmails
+    */
+    public function test_if_email_is_valid($email)
+    {
+        $isValid = $this->registrationModel->validateUserData($this->userData['username'], $email, $this->userData['password'], $this->userData['repeated_password']);
+
+        $errorsCount = count($this->registrationModel->getValidationErrors());
+
+        $this->assertTrue($isValid);
+        $this->assertEquals($errorsCount, 0);
+    }
+
+    /**
+        * @dataProvider getInvalidEmails
+    */
+    public function test_if_email_is_invalid($email)
+    {
+        $isValid = $this->registrationModel->validateUserData($this->userData['username'], $email, $this->userData['password'], $this->userData['repeated_password']);
+
+        $errorsCount = count($this->registrationModel->getValidationErrors());
+
+        $this->assertFalse($isValid);
+        $this->assertEquals($errorsCount, 1);
+    }
+
+    public function getValidEmails()
+    {
+        return [
+            ['tomy123@gmail.com'],
+            ['invincible@gmail.com'],
+            ['steelangels@gmail.com'],
+            ['asshai_by_the_shadows@wp.pl']
+        ];
+    }
+
+    public function getInvalidEmails()
+    {
+        return [
+            ['email_without_dot@'],
+            ['email_without_monkey_sing.com'],
+            ['tomy.com@']
+        ];
+    }
 }

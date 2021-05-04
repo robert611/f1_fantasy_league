@@ -47,6 +47,11 @@ class Registration
             $this->addValidationError("Username and password must be diffrent");
         }
 
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+            $this->addValidationError("Given email is incorrect");
+        }
+
         return empty($this->getValidationErrors());
     }
 
