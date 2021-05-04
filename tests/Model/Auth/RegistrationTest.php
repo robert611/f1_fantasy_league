@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Test\Database;
+namespace App\Tests\Model\Auth;
 
 use App\Model\Auth\Registration;
 use PHPUnit\Framework\TestCase;
