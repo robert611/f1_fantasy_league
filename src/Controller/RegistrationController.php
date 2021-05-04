@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Model\Registration;
+use App\Model\Auth\Registration;
 use App\Model\Database\Repository\UserRepository;
 
 class RegistrationController extends AbstractController

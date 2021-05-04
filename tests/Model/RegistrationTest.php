@@ -2,7 +2,7 @@
 
 namespace App\Test\Database;
 
-use App\Model\Registration;
+use App\Model\Auth\Registration;
 use PHPUnit\Framework\TestCase;
 use App\Model\Database\QueryBuilder;
 
