@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use App\Model\Auth\User;
 
 abstract class AbstractController
 {
@@ -27,5 +28,29 @@ abstract class AbstractController
     protected function redirectToRoute(string $uri)
     {
         header("Location: ${uri}");
+
+        exit;
+    }
+
+    protected function denyAccessUnlessGranted(string $role)
+    {
+        if (!$user = $this->getUser())
+        {
+            $this->session->getFlashBag()->add('error', 'You must log in to see this page.');
+
+            return $this->redirectToRoute('/login');
+        }
+
+        if (!$user->hasRole($role))
+        {
+            $this->session->getFlashBag()->add('error', 'You don\'t have access to this page.');
+
+            return $this->redirectToRoute('/');
+        }
+    }
+
+    protected function getUser(): null | User
+    {
+        return $this->session->get('user');
     }
 }
