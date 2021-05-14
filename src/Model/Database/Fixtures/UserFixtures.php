@@ -3,18 +3,10 @@
 namespace App\Model\Database\Fixtures;
 
 use App\Model\Database\Fixtures\Fixture;
-use App\Model\Database\QueryBuilder;
 
 class UserFixtures extends Fixture implements FixturesInterface
 {
-    private $queryBuilder;
-
-    public function __construct()
-    {
-        $this->queryBuilder = new QueryBuilder();
-    }
-
-    public function getUserRecords(): array
+    public function getRecords(): array
     {
         return [
             ['username' => 'tomy1242', 'email' => 'test1242@email.com', 'roles' => '["ROLE_USER"]', 'raw_password' => 'tomy1242', 'password' => password_hash('tomy1242', PASSWORD_BCRYPT)],
@@ -27,9 +19,7 @@ class UserFixtures extends Fixture implements FixturesInterface
 
     public function load(): void
     {
-        $pdo = $this->getPdoConnection();
-
-        $userRecords = $this->getUserRecords();
+        $userRecords = $this->getRecords();
 
         foreach ($userRecords as $record)
         {

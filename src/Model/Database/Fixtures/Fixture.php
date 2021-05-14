@@ -2,9 +2,14 @@
 
 namespace App\Model\Database\Fixtures;
 
-use App\Model\Database\Connection;
+use App\Model\Database\QueryBuilder;
 
 class Fixture 
 {
-    use Connection;
+    protected $queryBuilder;
+
+    public function __construct()
+    {
+        $this->queryBuilder = new QueryBuilder();
+    }
 }

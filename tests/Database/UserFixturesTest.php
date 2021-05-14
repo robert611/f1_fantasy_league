@@ -42,7 +42,7 @@ final class UserFixturesTest extends TestCase
 
         $recordsCountBeforeLoad = $this->queryBuilder->queryWithFetchAll("SELECT COUNT(*) as records_count FROM user");
 
-        $recordsToAddCount = count($this->userFixtures->getUserRecords());
+        $recordsToAddCount = count($this->userFixtures->getRecords());
 
         $this->userFixtures->load();
 

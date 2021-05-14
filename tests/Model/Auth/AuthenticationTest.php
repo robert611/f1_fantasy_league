@@ -46,7 +46,7 @@ final class AuthenticationTest extends TestCase
     {
         $user = $this->userRepository->findAll()[0];
 
-        $rawPassword = $this->userFixtures->getUserRecords()[0]['raw_password'];
+        $rawPassword = $this->userFixtures->getRecords()[0]['raw_password'];
 
         $isPasswordCorrect = $this->authentication->isPasswordCorrect($user, $rawPassword);
         $wrongPassword = $this->authentication->isPasswordCorrect($user, 'wrong_password_test_xxx');

@@ -29,7 +29,7 @@ final class UserRepositoryTest extends TestCase
 
         $user = $this->userRepository->find($userId);
 
-        $expectedUser = $this->userFixtures->getUserRecords()[0];
+        $expectedUser = $this->userFixtures->getRecords()[0];
 
         $this->assertEquals($user['username'], $expectedUser['username']);
         $this->assertEquals($user['email'], $expectedUser['email']);
@@ -47,7 +47,7 @@ final class UserRepositoryTest extends TestCase
 
     public function testFindOneBy()
     {
-        $username = $this->userFixtures->getUserRecords()[0]['username'];
+        $username = $this->userFixtures->getRecords()[0]['username'];
 
         $expectedUser = $this->queryBuilder->queryWithFetch("SELECT * FROM user WHERE username = :username", ['username' => $username]);
 

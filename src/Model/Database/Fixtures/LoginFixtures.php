@@ -3,25 +3,17 @@
 namespace App\Model\Database\Fixtures;
 
 use App\Model\Database\Fixtures\Fixture;
-use App\Model\Database\QueryBuilder;
 
 class LoginFixtures extends Fixture implements FixturesInterface
 {
-    private $queryBuilder;
-
-    public function __construct()
-    {
-        $this->queryBuilder = new QueryBuilder();
-    }
-
-    public function getLoginRecords(): array
+    public function getRecords(): array
     {
         return [];
     }
 
     public function load(): void
     {
-        $loginRecords = $this->getLoginRecords();
+        $loginRecords = $this->getRecords();
 
         foreach ($loginRecords as $record)
         {

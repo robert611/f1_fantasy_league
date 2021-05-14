@@ -44,7 +44,7 @@ class SecurityControllerTest extends TestCase
 
     public function test_if_user_can_log_in()
     {
-        $user = $this->userFixtures->getUserRecords()[0];
+        $user = $this->userFixtures->getRecords()[0];
 
         $response = $this->client->request('POST', 'http://localhost:8000/login', [
             'body' => [
@@ -84,7 +84,7 @@ class SecurityControllerTest extends TestCase
 
     public function test_if_user_will_be_redirected_to_login_page_after_giving_wrong_password()
     {
-        $user = $this->userFixtures->getUserRecords()[0];
+        $user = $this->userFixtures->getRecords()[0];
 
         $response = $this->client->request('POST', 'http://localhost:8000/login', [
             'body' => [
