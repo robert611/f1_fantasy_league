@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\Auth\User;
 use App\Model\Auth\Authentication;
+use App\Model\Database\Repository\LoginRepository;
 
 class SecurityController extends AbstractController
 {
@@ -34,6 +35,8 @@ class SecurityController extends AbstractController
         $userObject = new User($user);
 
         $this->session->set('user', $userObject);
+
+        (new LoginRepository)->saveLogin($user['id']);
 
         return $this->redirectToRoute('/');
     }
