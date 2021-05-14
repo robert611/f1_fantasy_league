@@ -6,20 +6,25 @@ use App\Model\Database\QueryBuilder;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\HttpClient;
 use App\Model\Database\Fixtures\UserFixtures;
+use App\Model\Database\Fixtures\LoginFixtures;
 
 class SecurityControllerTest extends TestCase
 {
     private QueryBuilder $queryBuilder;
     private UserFixtures $userFixtures;
+    private LoginFixtures $loginFixtures;
     private object $client;
 
     public function setUp(): void
     {
         $this->queryBuilder = new QueryBuilder();
         $this->userFixtures = new UserFixtures();
+        $this->loginFixtures = new LoginFixtures();
         $this->client = HttpClient::create();
         
         $this->userFixtures->clear();
+        $this->loginFixtures->clear();
+
         $this->userFixtures->load();
     }
 
@@ -53,8 +58,11 @@ class SecurityControllerTest extends TestCase
 
         $httpLogs = $response->getInfo('debug');
 
-        $this->assertTrue(str_contains($httpLogs, 'Location: /'));
-        $this->assertTrue(!str_contains($httpLogs, 'Location: /login'));
+        $userId = $this->queryBuilder->queryWithFetch('SELECT * FROM user WHERE username = :username', ['username' => $user['username']])['id'];
+
+        $isUserLogedIn = is_array($this->queryBuilder->queryWithFetch('SELECT * FROM login WHERE user_id = :user_id', ['user_id' => $userId])) ? true : false;
+        
+        $this->assertTrue($isUserLogedIn);
     }
 
     public function test_if_user_will_be_redirected_to_login_page_after_giving_wrong_username()
