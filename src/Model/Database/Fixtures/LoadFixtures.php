@@ -1,13 +1,17 @@
 <?php 
 
+namespace App\Model\Database\Fixtures;
+
 use App\Model\Database\Fixtures\UserFixtures;
+use App\Model\Database\Fixtures\TeamFixtures;
 
 class LoadFixtures
 {
     public function getAppFixtures(): array
     {
         return [
-            new UserFixtures()
+            new UserFixtures(),
+            new TeamFixtures()
         ];
     }
 
