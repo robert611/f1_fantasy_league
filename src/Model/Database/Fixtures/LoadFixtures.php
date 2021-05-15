@@ -4,6 +4,7 @@ namespace App\Model\Database\Fixtures;
 
 use App\Model\Database\Fixtures\UserFixtures;
 use App\Model\Database\Fixtures\TeamFixtures;
+use App\Model\Database\Fixtures\DriverFixtures;
 
 class LoadFixtures
 {
@@ -11,7 +12,8 @@ class LoadFixtures
     {
         return [
             new UserFixtures(),
-            new TeamFixtures()
+            new TeamFixtures(),
+            new DriverFixtures()
         ];
     }
 
