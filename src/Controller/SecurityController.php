@@ -10,11 +10,19 @@ class SecurityController extends AbstractController
 {
     public function showLoginForm()
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('/');
+        }
+
         print $this->twig->render('auth/login.html.twig');
     }
 
     public function login()
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('/');
+        }
+        
         $username = $this->request->get('username');
         $password = $this->request->get('password');
       

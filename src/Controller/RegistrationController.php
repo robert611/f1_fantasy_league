@@ -9,11 +9,19 @@ class RegistrationController extends AbstractController
 {
     public function showRegistrationForm()
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('/');
+        }
+
         print $this->twig->render('auth/registration.html.twig');
     }
 
     public function register()
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('/');
+        }
+        
         $username = $this->request->get('username');
         $email = $this->request->get('email');
         $password = $this->request->get('password');
