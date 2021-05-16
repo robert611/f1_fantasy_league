@@ -2,9 +2,73 @@
 
 {% block body %}
 
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
 
-        <h1>Hello there</h1>
+        <div class="row">
+            
+            <h3 class="text-center mb-5">Make your predictions!</h3>
+
+            <div class="col-md-6">
+                <div class="card no-border-radius">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Number</th>
+                                        <th>Name</th>
+                                        <th>Race Start</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i, race in races %}
+                                        <tr {% if i == 2 %} class="active-race-table-row" {% endif %}>
+                                            <td>{{ i + 1 }}</td>
+                                            <td>{{ race.name }}</td> 
+                                            <td>{{ race.race_start }}</td>           
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card no-border-radius">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Position</th>
+                                        <th>Name</th>
+                                        <th>Team</th>
+                                        <th>Bolid</th>
+                                        <th>Up</th>
+                                        <th>Down</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i, driver in drivers %}
+                                        <tr>
+                                            <td>{{ i + 1 }}</td>
+                                            <td>{{ driver.name }} {{ driver.surname }}</td>
+                                            <td>{{ driver.team_name }}</td>
+                                            <td><img src="./assets/images/cars/{{ driver.team_picture }}" class="img-fluid f1-car-img"></td>
+                                            <td><i class="fas fa-arrow-up"></i></td>
+                                            <td><i class="fas fa-arrow-down"></i></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
     </div>
 

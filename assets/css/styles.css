@@ -13,3 +13,23 @@
 .navbar-toggler:focus {
     border-color: rgba(255, 255, 255, .1)!important;
 }
+
+.no-border-radius 
+{
+    border-radius: 0px;
+}
+
+.f1-car-img {
+    max-width: 90px;
+}
+
+table > tbody > tr > td
+{
+    padding: 1rem 1rem!important;
+}
+
+.active-race-table-row {
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,9,32,0.5046393557422969) 43%, rgba(255,0,69,1) 100%);
+    color: white;
+}
