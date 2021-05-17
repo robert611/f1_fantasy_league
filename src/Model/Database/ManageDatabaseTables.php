@@ -20,7 +20,8 @@ class ManageDatabaseTables
             'team' => 'CREATE TABLE team (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(128), picture VARCHAR(128))',
             'driver' => 'CREATE TABLE driver (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(128), surname VARCHAR(128), driver_number smallint, team_id int)',
             'race' => 'CREATE TABLE race (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(128), race_start text)',
-            'login' => 'CREATE TABLE login (id INT PRIMARY KEY AUTO_INCREMENT, user_id INT, date VARCHAR(32))'
+            'login' => 'CREATE TABLE login (id INT PRIMARY KEY AUTO_INCREMENT, user_id INT, date VARCHAR(32))',
+            'race_predictions' => 'CREATE TABLE race_predictions (id INT PRIMARY KEY AUTO_INCREMENT, race_id INT, user_id INT, driver_id INT, position smallint)',
         ];
     }
 
@@ -28,7 +29,10 @@ class ManageDatabaseTables
     {
         return [
             'ALTER TABLE driver ADD FOREIGN KEY (team_id) REFERENCES team(id)',
-            'ALTER TABLE login ADD FOREIGN KEY (user_id) REFERENCES user(id)'
+            'ALTER TABLE login ADD FOREIGN KEY (user_id) REFERENCES user(id)',
+            'ALTER TABLE race_predictions ADD FOREIGN KEY (race_id) REFERENCES race(id)',
+            'ALTER TABLE race_predictions ADD FOREIGN KEY (user_id) REFERENCES user(id)',
+            'ALTER TABLE race_predictions ADD FOREIGN KEY (driver_id) REFERENCES driver(id)'
         ];
     }
 
