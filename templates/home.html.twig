@@ -27,7 +27,7 @@
                                 </thead>
                                 <tbody>
                                     {% for i, race in races %}
-                                        <tr {% if i == 2 %} class="active-race-table-row" {% endif %}>
+                                        <tr {% if currentRace.id == race.id %} class="active-race-table-row" {% endif %}>
                                             <td>{{ i + 1 }}</td>
                                             <td>{{ race.name }}</td> 
                                             <td>{{ race.race_start }}</td>           
@@ -57,17 +57,16 @@
                                 </thead>
                                 <tbody>
                                     <form method="post" action="#">
-                                        {% for i, driver in drivers %}
-                                            {% set driverPosition = i + 1 %}
+                                        {% for i, prediction in currentRacePredictions %}
                                             <tr>
-                                                <td id="driver-position-{{ driver.id }}">{{ driverPosition }}</td>
-                                                <td>{{ driver.name }} {{ driver.surname }}</td>
-                                                <td>{{ driver.team_name }}</td>
-                                                <td><img src="./assets/images/cars/{{ driver.team_picture }}" class="img-fluid f1-car-img"></td>
-                                                <td><i class="fas fa-arrow-up increase-driver-position" data-driverId="{{ driver.id }}" data-driverPosition="{{ driverPosition }}"></i></td>
-                                                <td><i class="fas fa-arrow-down decrease-driver-position" data-driverId="{{ driver.id }}" data-driverPosition="{{ driverPosition }}"></i></td>
+                                                <td id="driver-position-{{ prediction.driver.id }}">{{ prediction.position }}</td>
+                                                <td>{{ prediction.driver.name }} {{ prediction.driver.surname }}</td>
+                                                <td>{{ prediction.driver.teamName }}</td>
+                                                <td><img src="./assets/images/cars/{{ prediction.driver.team.picture }}" class="img-fluid f1-car-img"></td>
+                                                <td><i class="fas fa-arrow-up increase-driver-position" data-driverId="{{ prediction.driver.id }}" data-driverPosition="{{ prediction.position }}"></i></td>
+                                                <td><i class="fas fa-arrow-down decrease-driver-position" data-driverId="{{ prediction.driver.id }}" data-driverPosition="{{ prediction.position }}"></i></td>
                                                 
-                                                <input type="hidden" name="driver_position[{{ driver.id }}][{{ driverPosition }}]" id="driver-position-input-{{ driver.id }}">
+                                                <input type="hidden" name="driver_position[{{ prediction.driver.id }}][{{ prediction.position }}]" id="driver-position-input-{{ prediction.driver.id }}">
                                             </tr>
                                         {% endfor %}
                                     </form>

@@ -4,11 +4,18 @@ namespace App\Controller;
 
 use App\Model\Database\Repository\DriverRepository;
 use App\Model\Database\Repository\RaceRepository;
+use App\Model\Database\Repository\RacePredictionsRepository;
+use App\Model\Database\Entity\RacePredictions;
+use App\Model\Database\Entity\Driver;
+use App\Model\Database\Entity\Race;
+use App\Model\Database\Entity\EntityCollection;
+use App\Model\RacePredictions\DefaultRacePredictions;
 
 class IndexController extends AbstractController
 {
     private DriverRepository $driverRepository;
     private RaceRepository $raceRepository;
+    private RacePredictionsRepository $racePredictionsRepository;
 
     public function __construct()
     {
@@ -16,16 +23,33 @@ class IndexController extends AbstractController
 
         $this->driverRepository = new DriverRepository();
         $this->raceRepository = new RaceRepository();
+        $this->racePredictionsRepository = new RacePredictionsRepository();
     }
 
-    public function home()
+    public function home($raceId = null)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $drivers = $this->driverRepository->findAllWithTeams();
-        $races = $this->raceRepository->findAll();
+        $drivers = EntityCollection::getCollection($this->driverRepository->findAll(), Driver::class);
+        $races = EntityCollection::getCollection($this->raceRepository->findAll(), Race::class);
 
+        if ($raceId == null) 
+        {
+            $raceId = $races[0]->getId();
+        }
 
-        print $this->twig->render('home.html.twig', ['drivers' => $drivers, 'races' => $races]);
+        $currentRace = $this->raceRepository->find($raceId);
+
+        $userId = $this->getUser()->getId();
+
+        $currentRacePredictions = EntityCollection::getCollection($this->racePredictionsRepository->findBy(['user_id' => $userId, 'race_id' => $raceId]), RacePredictions::class);
+
+        $currentRacePredictions = empty($currentRacePredictions) ? DefaultRacePredictions::getDefaultRacePredictions($drivers, $raceId, $userId) : $currentRacePredictions;
+
+        print $this->twig->render('home.html.twig', [
+            'races' => $races,
+            'currentRace' => $currentRace,
+            'currentRacePredictions' => $currentRacePredictions
+        ]);
     }
 }
