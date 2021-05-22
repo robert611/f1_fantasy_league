@@ -1,6 +1,8 @@
 <?php 
 
-class Router 
+use App\Model\Router\RouteParameters;
+
+class Router
 {
     protected $routes = [
         'GET' => [],
@@ -28,9 +30,17 @@ class Router
 
     public function direct(string $uri, string $requestType): void
     {
-        if (array_key_exists($uri, $this->routes[$requestType]))
+        $uri = "/$uri";
+
+        $routeParamatersClass = new RouteParameters();
+
+        $routeData = $routeParamatersClass->getRawUriAndMatchingRoute($uri, $this->routes[$requestType]);
+
+        if (is_array($routeData))
         {
-            $controllerClassName = $this->routes[$requestType][$uri]['controller'];
+            $route = $routeData['route'];
+            
+            $controllerClassName = $route['controller'];
 
             require './src/Controller/' . $controllerClassName . '.php';
 
@@ -38,9 +48,11 @@ class Router
 
             $controller = new $controllerName();
 
-            $method = $this->routes[$requestType][$uri]['method'];
+            $method = $route['method'];
 
-            $controller->$method();
+            $parameters = $routeParamatersClass->getParameters($uri, $this->routes[$requestType]);
+
+            $controller->$method(implode($parameters));
 
             return;
         }
