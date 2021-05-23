@@ -29,15 +29,17 @@ class IndexController extends AbstractController
     public function home($raceId = null)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
+        
         $drivers = EntityCollection::getCollection($this->driverRepository->findAll(), Driver::class);
         $races = EntityCollection::getCollection($this->raceRepository->findAll(), Race::class);
 
-        if ($raceId == null) 
+        if (!$this->raceRepository->find((int) $raceId)) 
         {
             $raceId = $races[0]->getId();
         }
 
+        $raceId = (int) $raceId;
+        
         $currentRace = $this->raceRepository->find($raceId);
 
         $userId = $this->getUser()->getId();
