@@ -10,6 +10,7 @@ use App\Model\Database\Entity\Driver;
 use App\Model\Database\Entity\Race;
 use App\Model\Database\Entity\EntityCollection;
 use App\Model\RacePredictions\DefaultRacePredictions;
+use App\Model\RacePredictions\RacePoints;
 
 class IndexController extends AbstractController
 {
@@ -51,7 +52,8 @@ class IndexController extends AbstractController
         print $this->twig->render('home.html.twig', [
             'races' => $races,
             'currentRace' => $currentRace,
-            'currentRacePredictions' => $currentRacePredictions
+            'currentRacePredictions' => $currentRacePredictions,
+            'racePoints' => RacePoints::getRacePoints()
         ]);
     }
 }

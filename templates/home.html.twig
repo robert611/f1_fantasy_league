@@ -53,6 +53,7 @@
                                         <th>Bolid</th>
                                         <th>Up</th>
                                         <th>Down</th>
+                                        <th>Points</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -62,9 +63,12 @@
                                                 <td id="driver-position-{{ prediction.driver.id }}">{{ prediction.position }}</td>
                                                 <td>{{ prediction.driver.name }} {{ prediction.driver.surname }}</td>
                                                 <td>{{ prediction.driver.team.name }}</td>
-                                                <td><img src="../assets/images/cars/{{ prediction.driver.team.picture }}" class="img-fluid f1-car-img"></td>
-                                                <td><i class="fas fa-arrow-up increase-driver-position" data-driverId="{{ prediction.driver.id }}" data-driverPosition="{{ prediction.position }}"></i></td>
-                                                <td><i class="fas fa-arrow-down decrease-driver-position" data-driverId="{{ prediction.driver.id }}" data-driverPosition="{{ prediction.position }}"></i></td>
+                                                <td>
+                                                    <img src="../assets/images/cars/{{ prediction.driver.team.picture }}" class="img-fluid f1-car-img">
+                                                </td>
+                                                <td id="driver-points-{{ prediction.driver.id }}">{{ racePoints[i + 1] }}</td>
+                                                <td><i class="fas fa-arrow-up increase-driver-position" data-driverId="{{ prediction.driver.id }}" data-driverPosition="{{ prediction.position }}" data-driverpoints={{ racePoints[i + 1] }}></i></td>
+                                                <td><i class="fas fa-arrow-down decrease-driver-position" data-driverId="{{ prediction.driver.id }}" data-driverPosition="{{ prediction.position }}" data-driverpoints={{ racePoints[i + 1] }}></i></td>
                                                 
                                                 <input type="hidden" name="driver_position[{{ prediction.driver.id }}][{{ prediction.position }}]" id="driver-position-input-{{ prediction.driver.id }}">
                                             </tr>

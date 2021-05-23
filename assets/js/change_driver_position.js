@@ -21,17 +21,23 @@ function changeTablesData(upTableRow, downTableRow)
 {
     let upDriverIcons = getTableRowIcons(upTableRow);
 
-    [upDriverId, upCurrentDriverPosition] = getDriverDataFromIcon(upDriverIcons[0]);
+    [upDriverId, upCurrentDriverPosition, upCurrentDriverPoints] = getDriverDataFromIcon(upDriverIcons[0]);
 
     let downDriverIcons = getTableRowIcons(downTableRow);
 
-    [downDriverId, downCurrentDriverPosition] = getDriverDataFromIcon(downDriverIcons[0]);
+    [downDriverId, downCurrentDriverPosition, downCurrentDriverPoints] = getDriverDataFromIcon(downDriverIcons[0]);
 
     let upDriverPositionTableData = document.getElementById(`driver-position-${upDriverId}`);
     let downDriverPositionTableData = document.getElementById(`driver-position-${downDriverId}`);
 
+    let upDriverPointsTableData = document.getElementById(`driver-points-${upDriverId}`);
+    let downDriverPointsTableData = document.getElementById(`driver-points-${downDriverId}`);
+
     let newUpDriverPosition = parseInt(upCurrentDriverPosition) - 1;
     let newDownDriverPosition = parseInt(downCurrentDriverPosition) + 1;
+
+    let newUpDriverPoints = downCurrentDriverPoints;
+    let newDownDriverPoints = upCurrentDriverPoints;
 
     let driverWithIncreasedPositionInput = document.getElementById(`driver-position-input-${upDriverId}`);
     let driverWithDecreasedPositionInput = document.getElementById(`driver-position-input-${downDriverId}`);
@@ -39,8 +45,14 @@ function changeTablesData(upTableRow, downTableRow)
     setNewDriverPositionToIcons(upDriverIcons, newUpDriverPosition);
     setNewDriverPositionToIcons(downDriverIcons, newDownDriverPosition);
 
+    setNewDriverPointsToIcons(upDriverIcons, newUpDriverPoints);
+    setNewDriverPointsToIcons(downDriverIcons, newDownDriverPoints);
+
     upDriverPositionTableData.textContent = newUpDriverPosition;
     downDriverPositionTableData.textContent = newDownDriverPosition;
+
+    upDriverPointsTableData.textContent = newUpDriverPoints;
+    downDriverPointsTableData.textContent = newDownDriverPoints;
 
     setNewDriverInputName(driverWithIncreasedPositionInput, newUpDriverPosition, upDriverId);
     setNewDriverInputName(driverWithDecreasedPositionInput, newDownDriverPosition, downDriverId);
@@ -105,8 +117,9 @@ function getDriverDataFromIcon(icon)
 {
     let driverId = parseInt(icon.getAttribute('data-driverid'));
     let currentDriverPosition = parseInt(icon.getAttribute('data-driverposition'));
+    let currentDriverPoints = parseInt(icon.getAttribute('data-driverpoints'));
 
-    return [driverId, currentDriverPosition];
+    return [driverId, currentDriverPosition, currentDriverPoints];
 }
 
 function setNewDriverPositionToIcons(icons, position)
@@ -116,6 +129,16 @@ function setNewDriverPositionToIcons(icons, position)
         let icon = icons[iconIndex];
 
         icon.setAttribute('data-driverposition', position);
+    }
+}
+
+function setNewDriverPointsToIcons(icons, points)
+{
+    for (iconIndex in icons)
+    {
+        let icon = icons[iconIndex];
+
+        icon.setAttribute('data-driverpoints', points);
     }
 }
 
