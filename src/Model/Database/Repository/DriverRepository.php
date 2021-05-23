@@ -12,4 +12,18 @@ class DriverRepository extends AbstractRepository
 
         return $this->queryBuilder->queryWithFetchAll($query);
     }
+    
+    public function findDriversIds(): array
+    {
+        $query = "SELECT id FROM driver";
+
+        $results = $this->queryBuilder->queryWithFetchAll($query);
+
+        foreach ($results as $key => $result)
+        {
+            $results[$key] = $result['id'];
+        }
+
+        return $results;
+    }
 }
