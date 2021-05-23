@@ -5,6 +5,9 @@ function increaseDriverPosition(event)
 {
     let upTableRow = event.srcElement.parentElement.parentElement;
     let downTableRow = getPreviousSibling(upTableRow);
+    
+    if (downTableRow.tagName !== "TR" || downTableRow == undefined) return;
+
     changeTablesData(upTableRow, downTableRow);
 }
 
@@ -12,6 +15,9 @@ function decreaseDriverPosition(event)
 {
     let downTableRow = event.srcElement.parentElement.parentElement;
     let upTableRow = getNextSibling(downTableRow);
+
+    if (upTableRow == undefined || upTableRow.tagName !== "TR") return;
+
     changeTablesData(upTableRow, downTableRow);
 }
 
