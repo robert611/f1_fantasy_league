@@ -3,6 +3,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="../assets/js/change_driver_position.js"></script>
+    <script src="../assets/js/send_race_predictions_form.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -11,9 +12,9 @@
 
         <div class="row">
             
-            <h3 class="text-center mb-5">Make your predictions!</h3>
+            <h3 class="text-center">Make your predictions!</h3>
 
-            <div class="col-md-6">
+            <div class="col-md-6 mt-5">
                 <div class="card no-border-radius">
                     <div class="card-body">
                         <div class="table-responsive">
@@ -40,7 +41,18 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6 mt-5">
+
+                <div class="card mb-3">
+                    <div class="card-header pb-3 pt-4 layout-color">
+                        
+                    </div>
+                    <div class="card-body">
+                        <p>{{ defaultStandings ? "Those are default standings" : "You already made predictions about this race standings"}}</p>
+                        <button class="btn btn-primary" id="race-predictions-form-trigger">Save current predictions</button>
+                    </div>
+                </div>
+
                 <div class="card no-border-radius">
                     <div class="card-body">
                         <div class="table-responsive">
@@ -57,7 +69,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <form method="post" action="#">
+                                    <form method="post" action="/race/predictions/store/{{ currentRace.id }}" id="race-predictions-form">
                                         {% for i, prediction in currentRacePredictions %}
                                             <tr>
                                                 <td id="driver-position-{{ prediction.driver.id }}">{{ prediction.position }}</td>
@@ -68,10 +80,12 @@
                                                 </td>
                                                 <td id="driver-points-{{ prediction.driver.id }}">{{ racePoints[i + 1] }}</td>
                                                 <td><i class="fas fa-arrow-up increase-driver-position" data-driverId="{{ prediction.driver.id }}" data-driverPosition="{{ prediction.position }}" data-driverpoints={{ racePoints[i + 1] }}></i></td>
-                                                <td><i class="fas fa-arrow-down decrease-driver-position" data-driverId="{{ prediction.driver.id }}" data-driverPosition="{{ prediction.position }}" data-driverpoints={{ racePoints[i + 1] }}></i></td>
-                                                
-                                                <input type="hidden" name="driver_position[{{ prediction.driver.id }}][{{ prediction.position }}]" id="driver-position-input-{{ prediction.driver.id }}">
+                                                <td><i class="fas fa-arrow-down decrease-driver-position" data-driverId="{{ prediction.driver.id }}" data-driverPosition="{{ prediction.position }}" data-driverpoints={{ racePoints[i + 1] }}></i></td>        
                                             </tr>
+                                        {% endfor %}
+
+                                        {% for prediction in currentRacePredictions %}
+                                            <input type="hidden" name="driver_position[{{ prediction.driver.id }}]" value="{{ prediction.position }}" id="driver-position-input-{{ prediction.driver.id }}">
                                         {% endfor %}
                                     </form>
                                 </tbody>

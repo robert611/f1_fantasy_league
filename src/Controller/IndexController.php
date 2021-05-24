@@ -47,13 +47,20 @@ class IndexController extends AbstractController
 
         $currentRacePredictions = EntityCollection::getCollection($this->racePredictionsRepository->findBy(['user_id' => $userId, 'race_id' => $raceId]), RacePredictions::class);
 
-        $currentRacePredictions = empty($currentRacePredictions) ? DefaultRacePredictions::getDefaultRacePredictions($drivers, $raceId, $userId) : $currentRacePredictions;
+        $defaultStandings = false;
+
+        if (empty($currentRacePredictions))
+        {
+            $currentRacePredictions = DefaultRacePredictions::getDefaultRacePredictions($drivers, $raceId, $userId);
+            $defaultStandings = true;
+        }
 
         print $this->twig->render('home.html.twig', [
             'races' => $races,
             'currentRace' => $currentRace,
             'currentRacePredictions' => $currentRacePredictions,
-            'racePoints' => RacePoints::getRacePoints()
+            'racePoints' => RacePoints::getRacePoints(),
+            'defaultStandings' => $defaultStandings
         ]);
     }
 }

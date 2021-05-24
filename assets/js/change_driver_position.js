@@ -63,8 +63,8 @@ function changeTablesData(upTableRow, downTableRow)
     setDriverBackgroundColor(upDriverIcons[0], 'linear-green');
     setDriverBackgroundColor(downDriverIcons[1], 'linear-red');
 
-    setNewDriverInputName(driverWithIncreasedPositionInput, newUpDriverPosition, upDriverId);
-    setNewDriverInputName(driverWithDecreasedPositionInput, newDownDriverPosition, downDriverId);
+    setNewDriverInputValue(driverWithIncreasedPositionInput, newUpDriverPosition);
+    setNewDriverInputValue(driverWithDecreasedPositionInput, newDownDriverPosition);
 
     swapTableRows(upTableRow, downTableRow);
 }
@@ -151,11 +151,9 @@ function setNewDriverPointsToIcons(icons, points)
     }
 }
 
-function setNewDriverInputName(input, position, driverId)
+function setNewDriverInputValue(input, position, driverId)
 {
-    let name = `driver_position[${driverId}][${position}]`;
-
-    input.setAttribute('name', name);
+    input.setAttribute('value', position);
 }
 
 function resetDriversBackgroundColors()
@@ -169,8 +167,10 @@ function setDriverBackgroundColor(icon, colorClass)
 {
     icon.parentElement.parentElement.className = `${colorClass} driver-with-active-position-change-color`;
 }
+console.log(increaseDriverPositionTriggers);
 
 Array.from(increaseDriverPositionTriggers).forEach((trigger) => {
+    console.log(1);
     trigger.addEventListener('click', (event) => { increaseDriverPosition(event) });
 });
 

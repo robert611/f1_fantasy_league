@@ -49,3 +49,7 @@ table > tbody > tr > td
 .grey-hover:hover {
     color: #6c757d!important;
 }
+
+.layout-color {
+    background-color: var(--layoutColor);
+}
