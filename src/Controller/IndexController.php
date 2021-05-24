@@ -10,6 +10,7 @@ use App\Model\Database\Entity\Driver;
 use App\Model\Database\Entity\Race;
 use App\Model\Database\Entity\EntityCollection;
 use App\Model\RacePredictions\DefaultRacePredictions;
+use App\Model\RacePredictions\SortRacePredictions;
 use App\Model\RacePredictions\RacePoints;
 
 class IndexController extends AbstractController
@@ -53,6 +54,10 @@ class IndexController extends AbstractController
         {
             $currentRacePredictions = DefaultRacePredictions::getDefaultRacePredictions($drivers, $raceId, $userId);
             $defaultStandings = true;
+        }
+        else
+        {
+            $currentRacePredictions = SortRacePredictions::sortByPosition($currentRacePredictions);
         }
 
         print $this->twig->render('home.html.twig', [
