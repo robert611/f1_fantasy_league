@@ -167,10 +167,8 @@ function setDriverBackgroundColor(icon, colorClass)
 {
     icon.parentElement.parentElement.className = `${colorClass} driver-with-active-position-change-color`;
 }
-console.log(increaseDriverPositionTriggers);
 
 Array.from(increaseDriverPositionTriggers).forEach((trigger) => {
-    console.log(1);
     trigger.addEventListener('click', (event) => { increaseDriverPosition(event) });
 });
 
