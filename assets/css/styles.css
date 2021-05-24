@@ -43,5 +43,9 @@ table > tbody > tr > td
 .active-race-table-row {
     background: rgb(2,0,36);
     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,9,32,0.5046393557422969) 43%, rgba(255,0,69,1) 100%);
-    color: white;
+    color: white!important;
+}
+
+.grey-hover:hover {
+    color: #6c757d!important;
 }
