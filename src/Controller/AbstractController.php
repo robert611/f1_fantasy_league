@@ -5,6 +5,8 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Model\Auth\User;
+use App\Model\Auth\CreateTestUser;
+use App\Config\Environment;
 
 abstract class AbstractController
 {
@@ -12,9 +14,11 @@ abstract class AbstractController
     protected \Twig\Environment $twig;
     protected Request $request;
     protected Session $session;
+    protected Environment $environment;
 
     public function __construct()
     {
+        $this->environment = new Environment();
         $this->request = Request::createFromGlobals();
         $this->session = new Session();
         $this->session->start();
@@ -23,6 +27,16 @@ abstract class AbstractController
         $this->twig = new \Twig\Environment($this->loader, ['debug' => true]);  
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
         $this->twig->addGlobal('session', $this->session);
+
+        if ($this->request->get('test_user') == true)
+        {
+            if ($this->getEnvironment() == 'test')
+            {
+                $userObject = CreateTestUser::getTestUser($this->request->get('user_roles'));
+
+                $this->session->set('user', $userObject);
+            }
+        }
     }
 
     protected function redirectToRoute(string $uri)
@@ -52,5 +66,10 @@ abstract class AbstractController
     protected function getUser(): null | User
     {
         return $this->session->get('user');
+    }
+
+    protected function getEnvironment(): string
+    {
+        return $this->environment->getVariable('env');
     }
 }
