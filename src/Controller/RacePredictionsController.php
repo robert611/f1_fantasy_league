@@ -20,6 +20,8 @@ class RacePredictionsController extends AbstractController
 
     public function storeRacePredictions($raceId)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         if (!$race = $this->raceRepository->find((int) $raceId)) 
         {
             $this->session->getFlashBag()->add('error', 'You tried to predict results of the race that does not exist');
