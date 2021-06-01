@@ -12,5 +12,6 @@ $router->post('/api/registration/is/username/taken', 'RegistrationController', '
 $router->post('/api/registration/is/email/taken', 'RegistrationController', 'checkIfEmailIsTaken');
 
 $router->get('/admin', 'AdminController', 'admin');
+$router->get('/admin/race/results/dashboard', 'AdminController', 'raceResultsDashboard');
 
 $router->get('/{race_id}', 'IndexController', 'home');
