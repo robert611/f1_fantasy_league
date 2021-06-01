@@ -7,6 +7,7 @@ use App\Model\Database\Fixtures\TeamFixtures;
 use App\Model\Database\Fixtures\DriverFixtures;
 use App\Model\Database\Fixtures\RaceFixtures;
 use App\Model\Database\Fixtures\RacePredictionsFixtures;
+use App\Model\Database\Fixtures\RaceResultsFixtures;
 
 class LoadFixtures
 {
@@ -17,7 +18,8 @@ class LoadFixtures
             new TeamFixtures(),
             new DriverFixtures(),
             new RaceFixtures(),
-            new RacePredictionsFixtures()
+            new RacePredictionsFixtures(),
+            new RaceResultsFixtures()
         ];
     }
 
