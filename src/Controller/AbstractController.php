@@ -28,11 +28,11 @@ abstract class AbstractController
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
         $this->twig->addGlobal('session', $this->session);
 
-        if ($this->request->get('test_user') == true)
+        if ($this->request->headers->get('test_user') == true)
         {
             if ($this->getEnvironment() == 'test')
             {
-                $userObject = CreateTestUser::getTestUser($this->request->get('user_roles'));
+                $userObject = CreateTestUser::getTestUser($this->request->headers->get('user_roles'));
 
                 $this->session->set('user', $userObject);
             }

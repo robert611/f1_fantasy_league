@@ -34,12 +34,10 @@ class RacePredictionsControllerTest extends TestCase
 
         $body = $this->getRacePredictions($driverIds);
 
-        $body['test_user'] = true;
-        $body['user_roles'] = '["ROLE_USER"]';
-
         $response = $client->request('POST', "http://localhost:8000/race/predictions/store/$raceId", [
             'verify_peer' => false,
             'body' => $body,
+            'headers' => ['test_user' => true, 'user_roles' => '["ROLE_USER"]']
         ]);
 
         $content = $response->getContent(); /* Request is asynchronous, it makes it wait for the response */
@@ -65,12 +63,10 @@ class RacePredictionsControllerTest extends TestCase
 
         $body = $this->getRacePredictions($driverIds);
 
-        $body['test_user'] = true;
-        $body['user_roles'] = '["ROLE_USER"]';
-
         $response = $client->request('POST', "http://localhost:8000/race/predictions/store/$raceId", [
             'verify_peer' => false,
             'body' => $body,
+            'headers' => ['test_user' => true, 'user_roles' => '["ROLE_USER"]']
         ]);
 
         $content = $response->getContent(); /* Request is asynchronous, it makes it wait for the response */
@@ -89,6 +85,7 @@ class RacePredictionsControllerTest extends TestCase
         $response = $client->request('POST', "http://localhost:8000/race/predictions/store/$raceId", [
             'verify_peer' => false,
             'body' => $body,
+            'headers' => ['test_user' => true, 'user_roles' => '["ROLE_USER"]']
         ]);
         
         $content = $response->getContent(); /* Request is asynchronous, it makes it wait for the response */
