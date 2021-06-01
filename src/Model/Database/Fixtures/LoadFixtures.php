@@ -37,6 +37,8 @@ class LoadFixtures
     {
         $appFixtures = $this->getAppFixtures();
 
+        $appFixtures = array_reverse($appFixtures);
+
         foreach ($appFixtures as $fixture)
         {
             $fixture->clear();
