@@ -16,6 +16,8 @@
             <div id="content">
             
                 {{ include('admin/_horizontal_menu.html.twig') }}
+
+                {% block flashMessages %} {% endblock %}
                 
                 {% block adminflashMessages %} 
                     {% if session.flashBag.has('admin_success') %}
