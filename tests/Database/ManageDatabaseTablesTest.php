@@ -4,6 +4,7 @@ namespace App\Test\Database;
 
 use App\Model\Database\QueryBuilder;
 use App\Model\Database\ManageDatabaseTables;
+use App\Model\Database\Fixtures\LoadFixtures;
 use App\Config\Database as DatabaseConfig;
 use PHPUnit\Framework\TestCase;
 
@@ -11,11 +12,19 @@ final class ManageDatabaseTablesTest extends TestCase
 {
     private $queryBuilder;
     private $manageDatabaseTables;
+    private $loadFixtures;
 
     public function setUp(): void
     {
         $this->queryBuilder = new QueryBuilder();
         $this->manageDatabaseTables = new ManageDatabaseTables();
+        $this->loadFixtures = new LoadFixtures();
+    }
+
+    public function tearDown(): void
+    {
+        $this->loadFixtures->clear();
+        $this->loadFixtures->load();
     }
 
     public function testDropTables()
