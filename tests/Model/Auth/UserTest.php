@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Test\Database;
+namespace App\Tests\Model\Auth;
 
 use App\Model\Auth\User;
 use PHPUnit\Framework\TestCase;
@@ -11,7 +11,7 @@ final class UserTest extends TestCase
 
     public function setUp(): void
     {
-        $this->user = new User(['username' => 'test_user', 'email' => 'test@email.com', 'roles' => '["ROLE_USER", "ROLE_ADMIN"]']);
+        $this->user = new User(['id' => 1, 'username' => 'test_user', 'email' => 'test@email.com', 'roles' => '["ROLE_USER", "ROLE_ADMIN"]']);
     }
 
     public function test_if_user_roles_can_be_fetched()
