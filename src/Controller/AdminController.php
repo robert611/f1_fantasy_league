@@ -34,9 +34,12 @@ class AdminController extends AbstractController
         $races = (new RaceRepository())->findAll();
         $driver = (new DriverRepository())->findAll();
 
+        $currentDate = date('Y-m-d');
+
         print $this->twig->render('admin/race_results.html.twig', [
             'races' => $races,
-            'driver' => $driver
+            'driver' => $driver,
+            'currentDate' => $currentDate
         ]);
     }
 
@@ -57,6 +60,13 @@ class AdminController extends AbstractController
         $this->raceResultsRepository->saveResult(raceId: $raceId, driverId: $driverId, position: $position);
 
         $this->session->getFlashBag()->add('admin_success', 'Race result has been saved');
+
+        return $this->redirectToRoute('/admin/race/results/dashboard');
+    }
+
+    public function checkRacePredictions()
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         return $this->redirectToRoute('/admin/race/results/dashboard');
     }

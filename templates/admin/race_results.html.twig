@@ -5,6 +5,44 @@
     <div class="row p-2 mt-3">
         <div class="card no-border-radius">
             <div class="card-body">
+                <h2 class="mb-4 mt-3">Compare race results with users predictions</h2>
+
+                <form method="POST" action="/admin/race/predictions/check">
+                    <div class="mb-3">
+                        <label for="race-input" class="form-label">Race</label>
+
+                        <select class="form-select" aria-label="Select Race" id="race-input" name="race_id" required>
+                            {% for race in races %}
+                                <option value="{{ race.id }}" 
+                                    {% if race.race_start > currentDate %}
+                                        disabled
+                                    {% endif %}
+                                >{{ race.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <small>This operation will asign every user points for his predictions of given race, user will be able to see them and the diffrences beetwen his predictions and actual results if they are any.</small>
+
+                    <br>
+
+                    <button type="submit" class="btn btn-primary mt-3">Compare</button>
+                    
+                    <div id="compare-race-results-to-predictions-error-messages-container" class="mt-3">
+                        {% for message in session.getFlashBag().get('compare_race_results_to_predictions_error') %}
+                            <div class="alert alert-danger mt-2">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>  
+
+    <div class="row p-2 mt-3">
+        <div class="card no-border-radius">
+            <div class="card-body">
                 <h2 class="mb-4 mt-3">Add Race Result</h2>
                 <form method="POST" action="/admin/race/results/store" id="store-race-result-form">
                     <div class="mb-3">
