@@ -14,6 +14,6 @@ $router->post('/api/registration/is/email/taken', 'RegistrationController', 'che
 $router->get('/admin', 'AdminController', 'admin');
 $router->get('/admin/race/results/dashboard', 'AdminController', 'raceResultsDashboard');
 $router->post('/admin/race/results/store', 'AdminController', 'storeRaceResults');
-$router->post('/admin/race/predictions/check', 'AdminController', 'checkRacePredictions')
+$router->post('/admin/race/predictions/check', 'AdminController', 'checkRacePredictions');
 
 $router->get('/{race_id}', 'IndexController', 'home');
