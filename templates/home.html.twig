@@ -49,7 +49,12 @@
                     </div>
                     <div class="card-body">
                         <p>{{ defaultStandings ? "Those are default standings" : "You already made predictions about this race standings"}}</p>
-                        <button class="btn btn-primary" id="race-predictions-form-trigger">Save current predictions</button>
+                        
+                        {% if race.race_start <= currentDate %}
+                            It is the day of the race, you cannot make or change predictions for this race anymore   
+                        {% else %}
+                            <button class="btn btn-primary" id="race-predictions-form-trigger">Save current predictions</button>
+                        {% endif %}
                     </div>
                 </div>
 

@@ -35,9 +35,10 @@ class IndexController extends AbstractController
         $drivers = EntityCollection::getCollection($this->driverRepository->findAll(), Driver::class);
         $races = EntityCollection::getCollection($this->raceRepository->findAll(), Race::class);
 
-        if (!$this->raceRepository->find((int) $raceId)) 
+        if (!$race = $this->raceRepository->find((int) $raceId)) 
         {
             $raceId = $races[0]->getId();
+            $race = $this->raceRepository->find((int) $raceId);
         }
 
         $raceId = (int) $raceId;
@@ -60,12 +61,16 @@ class IndexController extends AbstractController
             $currentRacePredictions = SortRacePredictions::sortByPosition($currentRacePredictions);
         }
 
+        $currentDate = date('Y-m-d');
+
         print $this->twig->render('home.html.twig', [
+            'race' => $race,
             'races' => $races,
             'currentRace' => $currentRace,
             'currentRacePredictions' => $currentRacePredictions,
             'racePoints' => RacePoints::getRacePoints(),
-            'defaultStandings' => $defaultStandings
+            'defaultStandings' => $defaultStandings,
+            'currentDate' => $currentDate
         ]);
     }
 }

@@ -29,6 +29,14 @@ class RacePredictionsController extends AbstractController
             return $this->redirectToRoute('/');
         }
 
+        $currentDate = date('Y-m-d');
+
+        if ($race['race_start'] <= $currentDate) {
+            $this->session->getFlashBag()->add('error', 'It is the day of the race, you cannot make or change predictions for this race anymore');
+
+            return $this->redirectToRoute('/');
+        }
+
         $userId = $this->getUser()->getId();
 
         if ($this->racePredictionsRepository->findOneBy(['race_id' => $raceId, 'user_id' => $userId]))
