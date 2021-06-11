@@ -5,19 +5,30 @@ namespace App\Controller;
 use App\Model\Database\Repository\RaceRepository;
 use App\Model\Database\Repository\DriverRepository;
 use App\Model\Database\Repository\RaceResultsRepository;
+use App\Model\Database\Repository\RacePredictionsRepository;
+use App\Model\Database\Repository\RacePredictionsResultsRepository;
 use App\Model\Database\EntityValidation\RaceResultsValidation;
+use App\Model\ResultsMatching\SavePredictionsResults;
+use App\Model\Database\Entity\EntityCollection;
+use App\Model\Database\Entity\RaceResults;
 
 class AdminController extends AbstractController
 {
+    private RaceRepository $raceRepository;
     private RaceResultsRepository $raceResultsRepository;
     private RaceResultsValidation $raceResultsValidation;
+    private SavePredictionsResults $savePredictionsResults;
+    private RacePredictionsResultsRepository $racePredictionsResultsRepository;
 
     public function __construct()
     {
         parent::__construct();
 
+        $this->raceRepository = new RaceRepository();
         $this->raceResultsRepository = new RaceResultsRepository();
         $this->raceResultsValidation = new RaceResultsValidation();
+        $this->savePredictionsResults = new SavePredictionsResults();
+        $this->racePredictionsResultsRepository = new RacePredictionsResultsRepository();
     }
 
     public function admin()
@@ -31,7 +42,7 @@ class AdminController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        $races = (new RaceRepository())->findAll();
+        $races = $this->raceRepository->findAll();
         $driver = (new DriverRepository())->findAll();
 
         $currentDate = date('Y-m-d');
@@ -67,6 +78,26 @@ class AdminController extends AbstractController
     public function checkRacePredictions()
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $raceId = $this->request->get('race_id');
+
+        $race = $this->raceRepository->find($raceId);
+
+        if (!$race) {
+            $this->session->getFlashBag()->add('compare_race_results_to_predictions_error', 'This race does not exist');
+
+            return $this->redirectToRoute('/admin/race/results/dashboard');
+        }
+
+        $this->racePredictionsResultsRepository->removeRacePredictionsResults($raceId);
+
+        $usersRacePredictionsCollections = (new RacePredictionsRepository())->getUsersRacePredictionsCollections($raceId); 
+
+        $raceResultsCollection = EntityCollection::getCollection((new RaceResultsRepository())->findBy(['race_id' => $raceId]), RaceResults::class);
+
+        $this->savePredictionsResults->savePredictionsResultsToDatabase($usersRacePredictionsCollections, $raceResultsCollection);
+
+        $this->session->getFlashBag()->add('admin_success', "Predictions results were saved for " . count($usersRacePredictionsCollections) ." users");
 
         return $this->redirectToRoute('/admin/race/results/dashboard');
     }
