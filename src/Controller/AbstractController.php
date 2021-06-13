@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use App\Model\Auth\User;
 use App\Model\Auth\CreateTestUser;
 use App\Config\Environment;
+use App\Model\Security\Voter\ManageVoters;
 
 abstract class AbstractController
 {
@@ -46,19 +47,35 @@ abstract class AbstractController
         exit;
     }
 
-    protected function denyAccessUnlessGranted(string $role)
+    protected function denyAccessUnlessGranted(string $attribute, $subject = null)
     {
-        if (!$user = $this->getUser())
-        {
-            $this->session->getFlashBag()->add('error', 'You must log in to see this page.');
+        $user = $this->getUser();
 
-            return $this->redirectToRoute('/login');
+        if (str_contains($attribute, 'ROLE')) 
+        {
+            if (!$user)
+            {
+                $this->session->getFlashBag()->add('error', 'You must log in to see this page.');
+    
+                return $this->redirectToRoute('/login');
+            }
+    
+            if (!$user->hasRole($attribute))
+            {
+                $this->session->getFlashBag()->add('error', 'You don\'t have access to this page.');
+    
+                return $this->redirectToRoute('/');
+            }
+
+            return;
         }
 
-        if (!$user->hasRole($role))
-        {
-            $this->session->getFlashBag()->add('error', 'You don\'t have access to this page.');
+        $manageVoters = new ManageVoters();
 
+        if (!$manageVoters->isAccessAllowed($attribute, $subject, $user))
+        {
+            if (!$user) return $this->redirectToRoute('/login');
+            
             return $this->redirectToRoute('/');
         }
     }
