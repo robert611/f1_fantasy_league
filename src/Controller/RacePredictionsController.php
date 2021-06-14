@@ -20,22 +20,7 @@ class RacePredictionsController extends AbstractController
 
     public function storeRacePredictions($raceId)
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        if (!$race = $this->raceRepository->find((int) $raceId)) 
-        {
-            $this->session->getFlashBag()->add('error', 'You tried to predict results of the race that does not exist');
-
-            return $this->redirectToRoute('/');
-        }
-
-        $currentDate = date('Y-m-d');
-
-        if ($race['race_start'] <= $currentDate) {
-            $this->session->getFlashBag()->add('error', 'It is the day of the race, you cannot make or change predictions for this race anymore');
-
-            return $this->redirectToRoute('/');
-        }
+        $this->denyAccessUnlessGranted('STORE_RACE_PREDICTIONS', $raceId);
 
         $userId = $this->getUser()->getId();
 
@@ -50,6 +35,8 @@ class RacePredictionsController extends AbstractController
         {
             $this->racePredictionsRepository->savePrediction(raceId: $raceId, userId: $userId, driverId: $driverId, position: $prediction);
         }
+
+        $race = $this->raceRepository->find($raceId);
 
         $this->session->getFlashBag()->add('success', "Your predictions of the {$race['name']} are saved");
 

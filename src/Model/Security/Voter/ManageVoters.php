@@ -3,12 +3,15 @@
 namespace App\Model\Security\Voter;
 
 use App\Model\Auth\User;
+use App\Model\Security\Voter\RacePredictionsVoter;
 
 class ManageVoters
 {
     public function getVoters(): array
     {
-        return [];
+        return [
+            new RacePredictionsVoter()
+        ];
     }
 
     public function isAccessAllowed(string $attribute, $subject, ?User $user): bool
