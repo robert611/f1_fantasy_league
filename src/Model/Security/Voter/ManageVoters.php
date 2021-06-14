@@ -4,6 +4,7 @@ namespace App\Model\Security\Voter;
 
 use App\Model\Auth\User;
 use App\Model\Security\Voter\RacePredictionsVoter;
+use App\Model\Security\Voter\Exception\VoterNotFoundException;
 
 class ManageVoters
 {
@@ -26,6 +27,6 @@ class ManageVoters
             }
         }
 
-        throw new \Exception('Voter could not be find');
+        throw new VoterNotFoundException('Voter could not be find.');
     }
 }
