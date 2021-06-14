@@ -8,6 +8,8 @@ use App\Model\Auth\User;
 use App\Model\Auth\CreateTestUser;
 use App\Config\Environment;
 use App\Model\Security\Voter\ManageVoters;
+use App\Model\Security\Voter\Exception\VoterNotFoundException;
+use App\Model\Security\Voter\Exception\AttributeMethodNotFoundException;
 
 abstract class AbstractController
 {
@@ -72,12 +74,20 @@ abstract class AbstractController
 
         $manageVoters = new ManageVoters();
 
-        if (!$manageVoters->isAccessAllowed($attribute, $subject, $user))
+        try {
+            if (!$manageVoters->isAccessAllowed($attribute, $subject, $user))
+            {
+                if (!$user) return $this->redirectToRoute('/login');
+                
+                return $this->redirectToRoute('/');
+            }
+        } catch (VoterNotFoundException | AttributeMethodNotFoundException $e)
         {
-            if (!$user) return $this->redirectToRoute('/login');
-            
-            return $this->redirectToRoute('/');
+            print $this->twig->render('errors/exception.html.twig', ['message' => 'We could not confirm you permission to make this action.']);
+
+            exit;
         }
+        
     }
 
     protected function getUser(): null | User
