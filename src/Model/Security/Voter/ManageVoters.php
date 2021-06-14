@@ -11,7 +11,7 @@ class ManageVoters
         return [];
     }
 
-    public function isAccessAllowed(string $attribute, $subject, User $user): bool
+    public function isAccessAllowed(string $attribute, $subject, ?User $user): bool
     {
         $voters = $this->getVoters();
 
