@@ -31,7 +31,7 @@ class AdminControllerTest extends TestCase
     /**
     * @dataProvider urlsProvider
     */
-    public function test_if_index_is_successful($url, $pageElement)
+    public function test_if_page_is_successful($url, $pageElement)
     {
         $response = $this->client->request('GET', $url, [
             'verify_peer' => false,
@@ -47,11 +47,11 @@ class AdminControllerTest extends TestCase
     }
 
     /**
-    * @dataProvider urlsProvider
+    * @dataProvider urlsToRedirectProvider
     */
-    public function test_if_not_admin_will_be_redirected_back($url)
+    public function test_if_not_admin_will_be_redirected_back($url, $method)
     {
-        $response = $this->client->request('GET', $url, [
+        $response = $this->client->request($method, $url, [
             'verify_peer' => false,
             'headers' => ['test_user' => true, 'user_roles' => '["ROLE_USER"]']
         ]);
@@ -100,6 +100,16 @@ class AdminControllerTest extends TestCase
         return [
             ['http://localhost:8000/admin', '<a href="/admin" class="undecorate-link">Dashboard</a>'],
             ['http://localhost:8000/admin/race/results/dashboard', '<h2 class="mb-4 mt-3">Add Race Result</h2>']
+        ];
+    }
+
+    public function urlsToRedirectProvider()
+    {
+        return [
+            ['http://localhost:8000/admin', 'GET'],
+            ['http://localhost:8000/admin/race/results/dashboard', 'GET'],
+            ['http://localhost:8000/admin/race/results/store', 'POST'],
+            ['http://localhost:8000/admin/race/predictions/check', 'POST']
         ];
     }
 }
