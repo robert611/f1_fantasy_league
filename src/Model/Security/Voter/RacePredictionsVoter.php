@@ -6,6 +6,7 @@ use App\Model\Auth\User;
 use App\Model\Security\Voter\VoterInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Model\Database\Repository\RaceRepository;
+use App\Model\Security\Voter\Exception\AttributeMethodNotFoundException;
 
 class RacePredictionsVoter implements VoterInterface
 {
@@ -42,7 +43,7 @@ class RacePredictionsVoter implements VoterInterface
                 return $this->canStore($subject, $user);
         }
 
-        throw new \Exception('We could not confirm you permission to make this action');
+        throw new AttributeMethodNotFoundException('We could not confirm you permission to make this action.');
     }
 
     public function canStore(null | int $raceId, User $user): bool
