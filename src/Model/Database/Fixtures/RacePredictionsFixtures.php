@@ -13,7 +13,7 @@ class RacePredictionsFixtures extends Fixture implements FixturesInterface
         $driversIds = (new DriverRepository())->findDriversIds();
 
         return [
-            ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[11], 'position' => 1],
+            ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[8], 'position' => 1],
             ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[16], 'position' => 2],
             ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[1], 'position' => 3],
             ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[2], 'position' => 4],
@@ -22,9 +22,9 @@ class RacePredictionsFixtures extends Fixture implements FixturesInterface
             ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[10], 'position' => 7],
             ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[12], 'position' => 8],
             ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[19], 'position' => 9],
-            ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[0], 'position' => 10],
+            ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[11], 'position' => 10],
             ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[3], 'position' => 11],
-            ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[8], 'position' => 12],
+            ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[0], 'position' => 12],
             ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[9], 'position' => 13],
             ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[18], 'position' => 14],
             ['race_id' => 1, 'user_id' => $userId, 'driver_id' => $driversIds[17], 'position' => 15],

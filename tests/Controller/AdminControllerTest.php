@@ -8,11 +8,15 @@ use Symfony\Component\HttpClient\NativeHttpClient;
 use App\Model\Database\Repository\RaceRepository;
 use App\Model\Database\Repository\DriverRepository;
 use App\Model\Database\Repository\RaceResultsRepository;
+use App\Model\Database\Repository\RacePredictionsResultsRepository;
+use App\Model\Database\Fixtures\RacePredictionsResultsFixtures;
 use App\Model\Database\Fixtures\RaceResultsFixtures;
 
 class AdminControllerTest extends TestCase
 {
     private RaceResultsFixtures $raceResultsFixtures;
+    private RacePredictionsResultsFixtures $racePredictionsResultsFixtures;
+    private RacePredictionsResultsRepository $RacePredictionsResultsRepository;
     private NativeHttpClient $client;
     private RaceResultsRepository $raceResultsRepository;
     private $race;
@@ -23,6 +27,8 @@ class AdminControllerTest extends TestCase
         $this->client = HttpClient::create();
         $this->raceResultsFixtures = new RaceResultsFixtures();
         $this->raceResultsRepository = new RaceResultsRepository();
+        $this->racePredictionsResultsFixtures = new RacePredictionsResultsFixtures();
+        $this->racePredictionsResultsRepository = new RacePredictionsResultsRepository();
 
         $this->driver = (new DriverRepository)->findAll()[0];
         $this->race = (new RaceRepository)->findAll()[0];
@@ -93,6 +99,31 @@ class AdminControllerTest extends TestCase
 
         $this->raceResultsFixtures->clear();
         $this->raceResultsFixtures->load();
+    }
+
+    public function test_if_race_predictions_can_be_checked()
+    {
+        $this->racePredictionsResultsFixtures->clear();
+
+        $raceId = $this->race['id'];
+
+        $response = $this->client->request('POST', 'http://localhost:8000/admin/race/predictions/check', [
+            'verify_peer' => false,
+            'headers' => ['test_user' => true, 'user_roles' => '["ROLE_ADMIN"]'],
+            'body' => ['race_id' => $raceId]
+        ]);
+
+        $responseContent = $response->getContent(); /* Request is asynchronus, it makes it to wait */
+
+        $results = $this->racePredictionsResultsRepository->findAll();
+
+        $this->assertEquals(count($results), 1);
+        $this->assertEquals($results[0]['points'], 26); /* According to race predictions from fixtures it should be 25 */
+        $this->assertEquals($results[0]['race_id'], $raceId); 
+        $this->assertTrue(str_contains($responseContent, 'Compare race results with users predictions'));
+
+        $this->racePredictionsResultsFixtures->clear();
+        $this->racePredictionsResultsFixtures->load();
     }
 
     public function urlsProvider()
