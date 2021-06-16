@@ -7,7 +7,6 @@ use App\Model\RacePredictions\RacePoints;
 class CompareResults 
 {
     private array $raceResults;
-    private array $raceResultsToFilter;
     private null | int $gainedPoints = null;
     private null | array $matchedPositions = null;
 
@@ -22,12 +21,12 @@ class CompareResults
         $gainedPoints = 0;
         $matchedPositions = [];
 
+        $raceResultsToFilter = $this->raceResults;
+
         foreach ($predictionsCollection as $key => $prediction)
         {
-            $this->raceResultsToFilter = $this->raceResults;
-
             $predictedPosition = $prediction->getPosition();
-            $driverActualPosition = $this->getDriverRacePosition($prediction->getDriver()->getId());
+            $driverActualPosition = $this->getDriverRacePosition($raceResultsToFilter, $prediction->getDriver()->getId());
 
             if ($predictedPosition == $driverActualPosition)
             {
@@ -62,13 +61,13 @@ class CompareResults
         return $this->matchedPositions;
     }
 
-    public function getDriverRacePosition(int $driverId): int | false
+    public function getDriverRacePosition(array &$raceResultsToFilter, int $driverId): int | false
     {
-        foreach ($this->raceResultsToFilter as $key => $result)
+        foreach ($raceResultsToFilter as $key => $result)
         {
-            if ($result->getDriver()->getId() == $driverId)
+            if ($result->getDriverId() == $driverId)
             {
-                unset($this->raceResultsToFilter[$key]);
+                unset($raceResultsToFilter[$key]);
                 return $result->getPosition();
             }
         }
