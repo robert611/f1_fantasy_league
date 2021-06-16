@@ -24,7 +24,7 @@ class CompareResults
         foreach ($predictionsCollection as $prediction)
         {
             $predictedPosition = $prediction->getPosition();
-            $driverActualPosition = $this->getDriverRacePosition($raceResultsToFilter, $prediction->getDriver()->getId());
+            $driverActualPosition = $this->getDriverRacePosition($raceResultsToFilter, $prediction->getDriverId());
 
             if ($predictedPosition == $driverActualPosition)
             {
