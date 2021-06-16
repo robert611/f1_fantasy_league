@@ -25,7 +25,6 @@ class SavePredictionsResults
             $compareResults->comparePredictionsToResults($predictionsCollection);
 
             $gainedPoints = $compareResults->getGainedPoints();
-            $matchedPositions = $compareResults->getMatchedPositions();
 
             $this->racePredictionsResultsRepository->savePredictionsResults(raceId: $raceId, userId: $userId, points: $gainedPoints);
         }
