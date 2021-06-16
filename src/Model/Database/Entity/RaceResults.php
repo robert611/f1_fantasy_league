@@ -53,6 +53,11 @@ class RaceResults extends Entity
         return $this->race;
     }
 
+    public function getRaceId(): int
+    {
+        return $this->raceId;
+    }
+
     public function setDriver(int $driverId): void
     {
         $driver = $this->queryBuilder->queryWithFetch("SELECT * FROM driver WHERE id = :id", ['id' => $driverId]);
@@ -68,6 +73,11 @@ class RaceResults extends Entity
         }
         
         return $this->driver;
+    }
+
+    public function getDriverId(): int
+    {
+        return $this->driverId;
     }
 
     public function setPosition(int $position): void
