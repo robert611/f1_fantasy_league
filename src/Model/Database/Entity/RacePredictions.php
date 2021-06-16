@@ -57,6 +57,11 @@ class RacePredictions extends Entity
         return $this->race;
     }
 
+    public function getRaceId(): int
+    {
+        return $this->raceId;
+    }
+
     public function setUser(int $userId): void
     {
         $user = $this->queryBuilder->queryWithFetch("SELECT * FROM user WHERE id = :id", ['id' => $userId]);
@@ -74,6 +79,11 @@ class RacePredictions extends Entity
         return $this->user;
     } 
 
+    public function getUserId(): int
+    {
+        return $this->userId;
+    }
+
     public function setDriver(int $driverId): void
     {
         $driver = $this->queryBuilder->queryWithFetch("SELECT * FROM driver WHERE id = :id", ['id' => $driverId]);
@@ -89,6 +99,11 @@ class RacePredictions extends Entity
         }
         
         return $this->driver;
+    }
+
+    public function getDriverId(): int
+    {
+        return $this->driverId;
     }
 
     public function setPosition(int $position): void
