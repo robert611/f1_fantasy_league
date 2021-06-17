@@ -97,7 +97,10 @@ class IndexControllerTest extends TestCase
         $trimedResponseContent = str_replace(array("\r\n", "\r", "\n"), '', $trimedResponseContent);
 
         $this->assertTrue(str_contains($responseContent, 'Make your predictions!'));
-        $this->assertTrue(str_contains($responseContent, 'Save current predictions'));
+        $this->assertTrue(
+            str_contains($responseContent, 'Save current predictions') or 
+            str_contains($responseContent, 'It is the day of the race, you cannot make or change predictions for this race anymore')
+        );
         $this->assertTrue(str_contains($trimedResponseContent, '<trclass="active-race-table-row"><td>1</td>'));
     }
 }
