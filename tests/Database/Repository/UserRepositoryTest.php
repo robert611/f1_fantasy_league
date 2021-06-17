@@ -61,7 +61,7 @@ final class UserRepositoryTest extends TestCase
 
     public function testFindBy()
     {
-        $expectedUsers = $this->queryBuilder->queryWithFetchAll("SELECT * FROM user WHERE roles = :roles", ['roles' => '["ROLE_USER"]']);
+        $expectedUsers = $this->queryBuilder->queryWithFetchAll("SELECT * FROM user WHERE roles LIKE :roles", ['roles' => '%"ROLE_USER"%']);
 
         $users = $this->userRepository->findOneBy(['roles' => '["ROLE_USER"]']);
 
