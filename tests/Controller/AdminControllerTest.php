@@ -118,7 +118,7 @@ class AdminControllerTest extends TestCase
         $results = $this->racePredictionsResultsRepository->findAll();
 
         $this->assertEquals(count($results), 1);
-        $this->assertEquals($results[0]['points'], 26); /* According to race predictions from fixtures it should be 25 */
+        $this->assertEquals($results[0]['points'], 26); /* According to race predictions from fixtures it should be 26 */
         $this->assertEquals($results[0]['race_id'], $raceId); 
         $this->assertTrue(str_contains($responseContent, 'Compare race results with users predictions'));
 
