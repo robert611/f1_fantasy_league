@@ -24,13 +24,19 @@ class RacePredictionsControllerTest extends TestCase
         $this->racePredictionsFixtures->clear();
     }
 
+    public function tearDown(): void 
+    {
+        $this->racePredictionsFixtures->clear();
+        $this->racePredictionsFixtures->load();
+    }
+
     public function test_if_race_predictions_can_be_saved()
     {
         $client = HttpClient::create();
 
         $driverIds = (new DriverRepository())->findDriversIds();
 
-        $raceId = (new RaceRepository())->findAll()[0]['id'];
+        $raceId = $this->queryBuilder->queryWithFetch("SELECT id FROM race WHERE race_start > :date", ['date' => date('Y-m-d')])['id'];
 
         $body = $this->getRacePredictions($driverIds);
 
@@ -58,8 +64,8 @@ class RacePredictionsControllerTest extends TestCase
         $client = HttpClient::create();
 
         $driverIds = (new DriverRepository())->findDriversIds();
-
-        $raceId = (new RaceRepository())->findAll()[0]['id'];
+        
+        $raceId = $this->queryBuilder->queryWithFetch("SELECT id FROM race WHERE race_start > :date", ['date' => date('Y-m-d')])['id'];
 
         $body = $this->getRacePredictions($driverIds);
 
