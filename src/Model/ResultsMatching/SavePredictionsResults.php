@@ -18,7 +18,7 @@ class SavePredictionsResults
     {
         $compareResults = new CompareResults($raceResults);
 
-        $raceId = $raceResults[0]->getRace()->getId();
+        $raceId = $raceResults[0]->getRaceId();
 
         foreach ($usersRacePredictionsCollections as $userId => $predictionsCollection)
         {
