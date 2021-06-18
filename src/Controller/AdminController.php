@@ -25,6 +25,7 @@ class AdminController extends AbstractController
         parent::__construct();
 
         $this->raceRepository = new RaceRepository();
+        $this->driverRepository = new DriverRepository();
         $this->raceResultsRepository = new RaceResultsRepository();
         $this->raceResultsValidation = new RaceResultsValidation();
         $this->savePredictionsResults = new SavePredictionsResults();
@@ -43,7 +44,7 @@ class AdminController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $races = $this->raceRepository->findAll();
-        $driver = (new DriverRepository())->findAll();
+        $driver = $this->driverRepository->findAll();
 
         $currentDate = date('Y-m-d');
 
@@ -94,6 +95,12 @@ class AdminController extends AbstractController
         $usersRacePredictionsCollections = (new RacePredictionsRepository())->getUsersRacePredictionsCollections($raceId); 
 
         $raceResultsCollection = EntityCollection::getCollection((new RaceResultsRepository())->findBy(['race_id' => $raceId]), RaceResults::class);
+
+        if (count($raceResultsCollection) < count($this->driverRepository->findAll())) {
+            $this->session->getFlashBag()->add('admin_error', 'Results for this race are not entirely saved');
+
+            return $this->redirectToRoute('/admin/race/results/dashboard');
+        }
 
         $this->savePredictionsResults->savePredictionsResultsToDatabase($usersRacePredictionsCollections, $raceResultsCollection);
 
