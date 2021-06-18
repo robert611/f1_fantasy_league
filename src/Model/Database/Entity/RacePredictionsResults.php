@@ -20,7 +20,7 @@ class RacePredictionsResults extends Entity
         $this->raceId = $racePredictionsResults['race_id'];
         $this->userId = $racePredictionsResults['user_id'];
 
-        $this->setPosition($racePredictionsResults['points']);
+        $this->setPoints($racePredictionsResults['points']);
     }
 
     public function setId(int $id): void
