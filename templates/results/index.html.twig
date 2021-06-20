@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="/../../assets/css/styles.css" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5 mb-5">
+        <div class="row">  
+            <h3 class="text-center">Check your results!</h3>
+
+            <div class="col-md-6 mt-5">
+                <div class="card no-border-radius">
+                    <div class="card-header p-3 layout-color text-white">
+                        Races results
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Number</th>
+                                        <th>Name</th>
+                                        <th>Race Start</th>
+                                        <th>Points</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i, predictionsResults in racesPredictionsResults %}
+                                        <tr>
+                                            <td>{{ i + 1 }}</td>
+                                            <td>{{ predictionsResults.race.name }}</td> 
+                                            <td>{{ predictionsResults.race.raceStart }}</td> 
+                                            <td>{{ predictionsResults.points }}</td>           
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% if racesPredictionsResults|length is same as(0) %}
+                            <h5 class="mt-4 text-center">No results were found</h5>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mt-5">
+                <div class="card no-border-radius">
+                    <div class="card-header p-3 layout-color text-white">
+                        Players classification
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Position</th>
+                                        <th>Username</th>
+                                        <th>Points</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i, position in ranking %}
+                                        <tr>
+                                            <td>{{ i + 1 }}</td>
+                                            <td>{{ position.user.username }}</td> 
+                                            <td>{{ position.points }}</td>           
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% if ranking|length is same as(0) %}
+                            <h5 class="mt-4 text-center">No results were found</h5>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

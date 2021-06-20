@@ -6,6 +6,8 @@ $router->get('/login', 'SecurityController', 'showLoginForm');
 $router->post('/login', 'SecurityController', 'login');
 $router->get('/logout', 'SecurityController', 'logout');
 
+$router->get('/fantasy/league/results', 'ResultsController', 'index');
+
 $router->post('/race/predictions/store/{race_id}', 'RacePredictionsController', 'storeRacePredictions');
 
 $router->post('/api/registration/is/username/taken', 'RegistrationController', 'checkIfUsernameIsTaken');

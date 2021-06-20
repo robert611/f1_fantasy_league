@@ -19,4 +19,16 @@ class RacePredictionsResultsRepository extends AbstractRepository
 
         $this->queryBuilder->executeQuery($query, ['race_id' => $raceId]);
     }
+
+    public function getUsersWithResultsIds(): array
+    {
+        $results = $this->queryBuilder->queryWithFetchAll("SELECT DISTINCT user_id FROM race_predictions_results");
+
+        foreach ($results as $key => $result)
+        {
+            $results[$key] = $result['user_id'];
+        }
+
+        return $results;
+    }
 }
