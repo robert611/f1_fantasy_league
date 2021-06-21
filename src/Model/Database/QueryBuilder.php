@@ -36,17 +36,17 @@ class QueryBuilder
         return null;
     }
 
-    public function queryWithFetch(string $query, array $values = [])
+    public function queryWithFetch(string $query, array $values = [], $format = \PDO::FETCH_ASSOC)
     {
         $dbh = $this->basicQuery($query, $values);
 
-        return $dbh->fetch(\PDO::FETCH_ASSOC);
+        return $dbh->fetch($format);
     }
 
-    public function queryWithFetchAll(string $query, array $values = [])
+    public function queryWithFetchAll(string $query, array $values = [], $format = \PDO::FETCH_ASSOC)
     {
         $dbh = $this->basicQuery($query, $values);
     
-        return $dbh->fetchAll(\PDO::FETCH_ASSOC);
+        return $dbh->fetchAll($format);
     }
 }
