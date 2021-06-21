@@ -12,4 +12,9 @@ class UserRepository extends AbstractRepository
 
         $this->queryBuilder->executeQuery($query, ['username' => $username, 'email' => $email, 'password' => $password, 'roles' => $roles]);
     }
+
+    public function findUsersIds(): array
+    {
+        return $this->queryBuilder->queryWithFetchAll(query: "SELECT id FROM user", format: \PDO::FETCH_COLUMN);
+    }
 }
