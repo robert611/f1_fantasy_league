@@ -18,14 +18,7 @@ class RacePredictionsRepository extends AbstractRepository
 
     public function getUsersWithPredictionsIds(int $raceId): array
     {
-        $results = $this->queryBuilder->queryWithFetchAll("SELECT DISTINCT user_id FROM race_predictions WHERE race_id = :race_id", ['race_id' => $raceId]);
-
-        foreach ($results as $key => $result)
-        {
-            $results[$key] = $result['user_id'];
-        }
-
-        return $results;
+        return $this->queryBuilder->queryWithFetchAll("SELECT DISTINCT user_id FROM race_predictions WHERE race_id = :race_id", ['race_id' => $raceId], \PDO::FETCH_COLUMN);
     }
 
     public function getUsersRacePredictionsCollections(int $raceId): array
@@ -33,6 +26,8 @@ class RacePredictionsRepository extends AbstractRepository
         $userIds = $this->getUsersWithPredictionsIds($raceId);
 
         $usersPredictionsCollection = [];
+
+        if (false === $userIds) return [];
 
         foreach ($userIds as $userId)
         {

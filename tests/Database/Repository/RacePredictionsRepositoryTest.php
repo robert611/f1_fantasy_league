@@ -3,7 +3,9 @@
 namespace App\Test\Database\Repository;
 
 use App\Model\Database\QueryBuilder;
-use App\Model\Database\Repository\RacePredictionsRepository;
+use App\Model\Database\Repository\RacePredictionsRepository; 
+use App\Model\Database\Repository\RaceRepository;
+use App\Model\Database\Repository\UserRepository;
 use App\Model\Database\Fixtures\RacePredictionsFixtures;
 use PHPUnit\Framework\TestCase;
 
@@ -11,12 +13,16 @@ final class RacePredictionsRepositoryTest extends TestCase
 {
     private $queryBuilder;
     private $racePredictionsRepository;
+    private RaceRepository $raceRepository;
+    private UserRepository $userRepository;
     private $racePredictionsFixtures;
 
     public function setUp(): void
     {
         $this->queryBuilder = new QueryBuilder();
         $this->racePredictionsRepository = new RacePredictionsRepository();
+        $this->raceRepository = new RaceRepository();
+        $this->userRepository = new UserRepository();
         $this->racePredictionsFixtures = new RacePredictionsFixtures();
     }
 
@@ -55,5 +61,15 @@ final class RacePredictionsRepositoryTest extends TestCase
         $userPredictions = $this->racePredictionsRepository->findBy(['race_id' => $userPrediction['race_id'], 'user_id' => $userPrediction['user_id']]);
 
         $this->assertEquals(count($userPredictions), 0);
+    }
+
+    public function test_if_users_with_race_predictions_ids_can_be_found()
+    {
+        $raceId = $this->raceRepository->first()['id'];
+        $userId = $this->userRepository->first()['id'];
+
+        $usersWithPredictionsIds = $this->racePredictionsRepository->getUsersWithPredictionsIds($raceId);
+
+        $this->assertEquals($usersWithPredictionsIds[0], $userId); /* According to data from fixtures */
     }
 }
