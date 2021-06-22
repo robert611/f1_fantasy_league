@@ -113,4 +113,12 @@ abstract class AbstractRepository
 
         return $dbh->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    /*
+    * Fetch table's first record
+    */
+    public function first(): false | array
+    {
+        return $this->queryBuilder->queryWithFetch("SELECT * FROM {$this->table} LIMIT 1");
+    }
 }

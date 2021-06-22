@@ -85,4 +85,14 @@ final class UserRepositoryTest extends TestCase
 
         $this->queryBuilder->executeQuery("DELETE FROM user where username = :username", ['username' => $username]);
     }
+
+    public function test_if_first_record_can_be_fetched_using_method_first()
+    {
+        $user = $this->userRepository->first();
+
+        /* According to data from fixtures */
+        $this->assertEquals($user['username'], 'tomy1242');
+        $this->assertEquals($user['email'], 'test1242@email.com');
+        $this->assertEquals($user['roles'], '["ROLE_USER", "ROLE_ADMIN"]');
+    }
 }
