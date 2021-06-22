@@ -1,13 +1,14 @@
 <?php 
 
-namespace App\Test\Database\Repository;
+namespace App\Tests\Database\Repository;
 
+use PHPUnit\Framework\TestCase;
 use App\Model\Database\QueryBuilder;
 use App\Model\Database\Repository\RacePredictionsRepository; 
 use App\Model\Database\Repository\RaceRepository;
 use App\Model\Database\Repository\UserRepository;
 use App\Model\Database\Fixtures\RacePredictionsFixtures;
-use PHPUnit\Framework\TestCase;
+use App\Model\Database\Entity\RacePredictions;
 
 final class RacePredictionsRepositoryTest extends TestCase
 {
@@ -71,5 +72,30 @@ final class RacePredictionsRepositoryTest extends TestCase
         $usersWithPredictionsIds = $this->racePredictionsRepository->getUsersWithPredictionsIds($raceId);
 
         $this->assertEquals($usersWithPredictionsIds[0], $userId); /* According to data from fixtures */
+    }
+
+    public function test_if_users_race_predictions_collections_can_be_found()
+    {
+        $raceId = $this->raceRepository->first()['id'];
+        $userId = $this->userRepository->first()['id'];
+
+        $usersRacePredictionsCollections = $this->racePredictionsRepository->getUsersRacePredictionsCollections($raceId);
+
+        /* According to data from fixtures */
+        $this->assertEquals(count($usersRacePredictionsCollections), 1);
+        $this->assertEquals(count($usersRacePredictionsCollections[$userId]), 20);
+        $this->assertTrue($usersRacePredictionsCollections[$userId][0] instanceof RacePredictions);
+    }
+
+    public function test_if_empty_array_is_returned_if_no_race_prediction_exists()
+    {        
+        $this->racePredictionsFixtures->clear();
+
+        $raceId = $this->raceRepository->first()['id'];
+
+        $usersRacePredictionsCollections = $this->racePredictionsRepository->getUsersRacePredictionsCollections($raceId);
+
+        $this->assertTrue(is_array($usersRacePredictionsCollections));
+        $this->assertTrue(empty($usersRacePredictionsCollections));
     }
 }
